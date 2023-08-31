@@ -60,6 +60,16 @@ export class Home extends Component {
 
             const [showChildren, setShowChildren] = useState(false);
 
+            const [hovered, setHovered] = useState(false);
+
+            const handleMouseEnter = () => {
+                setHovered(true);
+            };
+
+            const handleMouseLeave = () => {
+                setHovered(false);
+            };
+
             const handleClick = () => {
                 if (typeof children === 'undefined') {
                     return;
@@ -69,9 +79,14 @@ export class Home extends Component {
             };
             return (
                 <>
-                    <div onClick={handleClick} style={{ marginBottom: "10px" }}>
+                    <div
+                        onClick={handleClick}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        style={{ marginBottom: "10px" }}>
                         <span>{label}</span>
                     </div>
+                    <button>x</button>
                     <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
                         {showChildren && <Tree treeData={children} />}
                     </ul>
