@@ -24,14 +24,6 @@ function TreeNode(props) {
         setShowChildren(!showChildren);
     };
 
-    async function  deleteNode(nodeId){
-            await fetch(`treeview/${nodeId}`, {method: "DELETE"});
-        }
-
-    const handleRemoveButtonClick = async (id) =>{
-        await deleteNode(id);
-        }
-
     return (
         <>
             <div
@@ -40,7 +32,7 @@ function TreeNode(props) {
                 style={{ marginBottom: "10px" }}>
                 <span onClick={handleClick}>{value}</span>
                 {hovered && (
-                    <button onClick={() => handleRemoveButtonClick(id)} className="hover-button">x</button>
+                    <button onClick={() => props.handler(id)} className="hover-button">x</button>
                 )}
             </div>
             <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
