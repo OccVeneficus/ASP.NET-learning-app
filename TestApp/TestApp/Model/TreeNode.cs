@@ -5,32 +5,25 @@
 /// </summary>
 public class TreeNode
 {
-    public TreeNode(string key, string value, List<TreeNode> children)
+    public TreeNode(int id, string value, int parentId)
     {
-        Key = key;
+        Id = id;
         Value = value;
-        Children = children;
-    }
-
-    public TreeNode(string key, string value)
-    {
-        Key = key;
-        Value = value;
-        Children = new List<TreeNode>();
+        ParentId = parentId;
     }
 
     /// <summary>
     /// Unique value. Identifies a node.
     /// </summary>
-    public string Key { get; set; }
+    public int Id { get; set; }
+
+    /// <summary>
+    /// Id of a parent node.
+    /// </summary>
+    public int ParentId { get; set; }
 
     /// <summary>
     /// Node value for user data.
     /// </summary>
     public string Value { get; set; }
-
-    /// <summary>
-    /// Children nodes.
-    /// </summary>
-    public List<TreeNode> Children { get; set; }
 }
