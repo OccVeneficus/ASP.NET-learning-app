@@ -3,60 +3,19 @@
 export class Home extends Component {
   static displayName = Home.name;
 
+  constructor(props) {
+    super(props);
+    this.state = { treeData: [], loading: true };
+  }
+
+  componentDidMount() {
+    this.populateTreeViewWithInitialData();
+  }
+
     render() {
-        const treeData = [
-            {
-                key: "0",
-                label: "Documents",
-                children: [
-                    {
-                        key: "0-0",
-                        label: "Document 1-1",
-                        children: [
-                            {
-                                key: "0-1-1",
-                                label: "Document-0-1.doc",
-                            },
-                            {
-                                key: "0-1-2",
-                                label: "Document-0-2.doc",
-                            },
-                        ],
-                    },
-                ],
-            },
-            {
-                key: "1",
-                label: "Desktop",
-                children: [
-                    {
-                        key: "1-0",
-                        label: "document1.doc",
-                    },
-                    {
-                        key: "0-0",
-                        label: "documennt-2.doc",
-                    },
-                ],
-            },
-            {
-                key: "2",
-                label: "Downloads",
-                children: [],
-            },
-        ];
-        function Tree({ treeData }) {
-            return (
-                <ul>
-                    {treeData.map((node) => (
-                        <TreeNode node={node} key={node.key} />
-                    ))}
-                </ul>
-            );
-        }
 
         function TreeNode({ node }) {
-            const { children, label } = node;
+            const { children, value, key } = node;
 
             const [showChildren, setShowChildren] = useState(false);
 
@@ -77,27 +36,68 @@ export class Home extends Component {
 
                 setShowChildren(!showChildren);
             };
+
+            
+            async function  deleteNode(nodeKey){
+    await fetch(`treeview/${nodeKey}`, {method: "DELETE"})
+    const response = await fetch('treeview');
+    const data = await response.json();
+    this.setState({ treeData: data, loading: false });
+  }
+            const handleRemoveButtonClick = (key) =>{
+                deleteNode(key)
+                }
+
             return (
                 <>
                     <div
-                        onClick={handleClick}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
                         style={{ marginBottom: "10px" }}>
-                        <span>{label}</span>
+                        <span onClick={handleClick}>{value}</span>
+                        {hovered && (
+                            
+                            <button onClick={() => handleRemoveButtonClick(key)} className="hover-button">x</button>
+                        )}
                     </div>
-                    <button>x</button>
                     <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
                         {showChildren && <Tree treeData={children} />}
                     </ul>
                 </>
             );
         }
+
+        function renderTreeView(treeData) {
+            return (
+                <Tree treeData={treeData} />
+            );
+          }
+
+        let contents = this.state.loading
+      ? <p><em>Loading...</em></p>
+      : renderTreeView(this.state.treeData);
+
+        function Tree({ treeData }) {
+            return (
+                <ul>
+                    {treeData.map((node) => (
+                        <TreeNode node={node} key={node.key} />
+                    ))}
+                </ul>
+            );
+        }
+
     return (
       <div>
             <h1>React Tree View</h1>
-            <Tree treeData={treeData} />
+            {contents}
       </div>
     );
+  }
+
+  async populateTreeViewWithInitialData() {
+    const response = await fetch('treeview');
+    const data = await response.json();
+    this.setState({ treeData: data, loading: false });
   }
 }
