@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tree from './Tree';
 
 function TreeNode(props) {
@@ -7,6 +7,12 @@ function TreeNode(props) {
     const [showChildren, setShowChildren] = useState(false);
 
     const [hovered, setHovered] = useState(false);
+
+    const [expandButtonText, setExpandButtonText] = useState("+");
+
+    useEffect(() => {
+        setExpandButtonText(showChildren ? "-" : "+")
+    },[showChildren])
 
     const handleMouseEnter = () => {
         setHovered(true);
@@ -17,7 +23,7 @@ function TreeNode(props) {
     };
 
     const handleClick = () => {
-        if (typeof children === 'undefined') {
+        if (typeof children === 'undefined' || children.length === 0) {
             return;
         }
 
@@ -40,14 +46,15 @@ function TreeNode(props) {
                     alignItems: "center",
                     justifyContent: "space-between",
                      }}>
-                <span onClick={handleClick} style={{ flex: "1" }}>{value}</span>
+                <button onClick={handleClick}>{expandButtonText}</button>
+                <span style={{ flex: "1" }}>{value}</span>
                 {hovered && (
                     <div style={{ 
                         display: "flex",
                         alignContent: "left",
                          }}>
-                        <button onClick={() => props.deleteHandler(id)} className="hover-button">x</button>
-                        <button onClick={() => handleAddChildClick(id)} className="hover-button">+</button>
+                        <button onClick={() => props.deleteHandler(id)} className="hover-button">delete</button>
+                        <button onClick={() => handleAddChildClick(id)} className="hover-button">add</button>
                     </div>
                 )}
             </div>
