@@ -22,7 +22,11 @@ export class Home extends Component {
     render() {
         function renderTreeView(treeData) {
             return (
-                <Tree treeData={treeData} />
+                <>
+                  <Tree treeData={treeData} />
+                  <button >Reset</button>
+                  <button >Add</button>
+                </>
             );
           }
 

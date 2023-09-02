@@ -50,9 +50,31 @@ namespace TestApp.Controllers
                 return NotFound();
             }
 
+            var children = GetChildren(itemToDelete);
+            foreach (var child in children)
+            {
+                _treeViewData.Remove(child);
+            }
             _treeViewData.Remove(itemToDelete);
 
             return NoContent();
+        }
+
+        [HttpPost("{parentId:int}/addChild")]
+        public IActionResult AddChild(int parentId)
+        {
+            var newNodeDto = new TreeNodeDTO(-1, "New node");
+            var parent = _treeViewData.FirstOrDefault(x => x.Id == parentId);
+            if (parent == null)
+            {
+                return NotFound("Parent node not found");
+            }
+
+            var newNode = new TreeNode(_treeViewData.Count, newNodeDto.Value, parent.Id);
+            _treeViewData.Add(newNode);
+
+            var newNodeDtoWithId = new TreeNodeDTO(newNode.Id, newNode.Value);
+            return Ok(newNodeDtoWithId);
         }
 
         private void GetSubTree(
@@ -66,6 +88,19 @@ namespace TestApp.Controllers
                 GetSubTree(child);
             }
             root.Children = childNodesDtos;
+        }
+
+        private IEnumerable<TreeNode> GetChildren(TreeNode root)
+        {
+            var result = new List<TreeNode>();
+            var children = _treeViewData.Where(node => node.ParentId == root.Id).ToList();
+            result.AddRange(children);
+            foreach (var child in children)
+            {
+                result.AddRange(GetChildren(child));
+            }
+
+            return result;
         }
     }
 }

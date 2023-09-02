@@ -24,15 +24,31 @@ function TreeNode(props) {
         setShowChildren(!showChildren);
     };
 
+    const handleAddChildClick = (id) => {
+        props.addChildHandler(id)
+        setShowChildren(true);
+    }
+
     return (
         <>
             <div
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                style={{ marginBottom: "10px" }}>
-                <span onClick={handleClick}>{value}</span>
+                style={{ 
+                    marginBottom: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                     }}>
+                <span onClick={handleClick} style={{ flex: "1" }}>{value}</span>
                 {hovered && (
-                    <button onClick={() => props.handler(id)} className="hover-button">x</button>
+                    <div style={{ 
+                        display: "flex",
+                        alignContent: "left",
+                         }}>
+                        <button onClick={() => props.deleteHandler(id)} className="hover-button">x</button>
+                        <button onClick={() => handleAddChildClick(id)} className="hover-button">+</button>
+                    </div>
                 )}
             </div>
             <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
