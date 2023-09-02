@@ -5,9 +5,9 @@
 /// </summary>
 public class TreeNode
 {
-    public TreeNode(int id, string value, int parentId)
+    public TreeNode(string value, int parentId)
     {
-        Id = id;
+        Id = IdGenerator.GetNextId();
         Value = value;
         ParentId = parentId;
     }

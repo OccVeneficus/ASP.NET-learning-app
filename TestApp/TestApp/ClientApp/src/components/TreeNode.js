@@ -35,6 +35,13 @@ function TreeNode(props) {
         setShowChildren(true);
     }
 
+    const handleDeleteClick = (id) => {
+        props.deleteHandler(id)
+        if(children && children.length == 0){
+            setShowChildren(false);
+        }
+    }
+
     return (
         <>
             <div
@@ -53,13 +60,13 @@ function TreeNode(props) {
                         display: "flex",
                         alignContent: "left",
                          }}>
-                        <button onClick={() => props.deleteHandler(id)} className="hover-button">delete</button>
+                        <button onClick={() => handleDeleteClick(id)} className="hover-button">delete</button>
                         <button onClick={() => handleAddChildClick(id)} className="hover-button">add</button>
                     </div>
                 )}
             </div>
             <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
-                {showChildren && <Tree treeData={children} />}
+                {showChildren && <Tree treeData={children} deleteNode={props.deleteHandler} addChildNode={props.addChildHandler} />}
             </ul>
         </>
     );

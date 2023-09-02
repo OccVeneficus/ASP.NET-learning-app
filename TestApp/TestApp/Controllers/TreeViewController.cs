@@ -14,22 +14,22 @@ namespace TestApp.Controllers
 
         private static readonly List<TreeNode> _initialTreeViewData = new List<TreeNode>()
         {
-            new TreeNode(0, "Test1", -1),
-            new TreeNode(1, "Child1", 0),
-            new TreeNode(2, "Child2", 0),
-            new TreeNode(3, "SubChild1", 2),
-            new TreeNode(4, "SubChild2", 2),
-            new TreeNode(5, "Test2", -1),
+            new TreeNode("Test1", -1),
+            new TreeNode("Child1", 0),
+            new TreeNode("Child2", 0),
+            new TreeNode("SubChild1", 2),
+            new TreeNode("SubChild2", 2),
+            new TreeNode("Test2", -1),
         };
 
         private static readonly List<TreeNode> _treeViewData = new List<TreeNode>()
         {
-            new TreeNode(0, "Test1", -1),
-            new TreeNode(1, "Child1", 0),
-            new TreeNode(2, "Child2", 0),
-            new TreeNode(3, "SubChild1", 2),
-            new TreeNode(4, "SubChild2", 2),
-            new TreeNode(5, "Test2", -1),
+            new TreeNode("Test1", -1),
+            new TreeNode("Child1", 0),
+            new TreeNode("Child2", 0),
+            new TreeNode("SubChild1", 2),
+            new TreeNode("SubChild2", 2),
+            new TreeNode("Test2", -1),
         };
 
         public TreeViewController(ILogger<TreeViewController> logger)
@@ -80,7 +80,7 @@ namespace TestApp.Controllers
                 return NotFound("Parent node not found");
             }
 
-            var newNode = new TreeNode(_treeViewData.Count, newNodeDto.Value, parent.Id);
+            var newNode = new TreeNode(newNodeDto.Value, parent.Id);
             _treeViewData.Add(newNode);
 
             var newNodeDtoWithId = new TreeNodeDTO(newNode.Id, newNode.Value);
