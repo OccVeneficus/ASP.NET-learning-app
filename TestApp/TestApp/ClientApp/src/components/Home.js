@@ -7,25 +7,34 @@ export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = { treeData: [], loading: true };
+    this.handleReset = this.handleReset.bind(this);
   }
 
-  async populateTreeViewWithInitialData() {
+  async populateTree() {
     const response = await fetch('treeview');
     const data = await response.json();
     this.setState({ treeData: data, loading: false });
   }
 
   componentDidMount() {
-    this.populateTreeViewWithInitialData();
+    this.populateTree();
   }
 
+  async reset(){
+    const response = await fetch('treeview/reset', {method: "POST"});
+    if(response.ok){
+      await this.populateTree()
+    }
+  }
+
+  handleReset(){
+      this.reset();
+  }
     render() {
         function renderTreeView(treeData) {
             return (
                 <>
                   <Tree treeData={treeData} />
-                  <button >Reset</button>
-                  <button >Add</button>
                 </>
             );
           }
@@ -38,6 +47,7 @@ export class Home extends Component {
       <div>
             <h1>React Tree View</h1>
             {contents}
+            <button onClick={this.handleReset}>Reset</button>
       </div>
     );
   }

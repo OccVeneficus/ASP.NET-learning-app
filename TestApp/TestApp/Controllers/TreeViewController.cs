@@ -12,6 +12,16 @@ namespace TestApp.Controllers
     {
         private readonly ILogger<TreeViewController> _logger;
 
+        private static readonly List<TreeNode> _initialTreeViewData = new List<TreeNode>()
+        {
+            new TreeNode(0, "Test1", -1),
+            new TreeNode(1, "Child1", 0),
+            new TreeNode(2, "Child2", 0),
+            new TreeNode(3, "SubChild1", 2),
+            new TreeNode(4, "SubChild2", 2),
+            new TreeNode(5, "Test2", -1),
+        };
+
         private static readonly List<TreeNode> _treeViewData = new List<TreeNode>()
         {
             new TreeNode(0, "Test1", -1),
@@ -75,6 +85,15 @@ namespace TestApp.Controllers
 
             var newNodeDtoWithId = new TreeNodeDTO(newNode.Id, newNode.Value);
             return Ok(newNodeDtoWithId);
+        }
+
+        [HttpPost("reset")]
+        public IActionResult Reset()
+        {
+            _treeViewData.Clear();
+            _treeViewData.AddRange(new List<TreeNode>(_initialTreeViewData));
+
+            return Ok();
         }
 
         private void GetSubTree(
