@@ -21,7 +21,7 @@ function Tree(props) {
         <>
             <ul>
                 {treeData.map((node) => (
-                    <TreeNode 
+                    <TreeNode
                     node={node} 
                     id={node.id} 
                     key={node.id} 

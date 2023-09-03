@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Tree from './Tree';
+import '../styles/TreeNode.css'
 
 function TreeNode(props) {
     const { children, value, id } = props.node;
@@ -56,15 +57,9 @@ function TreeNode(props) {
     return (
         <>
             <div
+                className='tree-node'
                 onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                    padding: '10px', // Добавляем отступы
-                    display: 'flex',
-                    alignItems: 'left',
-                    justifyContent: 'start',
-                    whiteSpace: 'nowrap', // Текст не переносится
-                }}>
+                onMouseLeave={handleMouseLeave}>
                 <button onClick={handleClick}>{expandButtonText}</button>
                 {isEditing ? (
                         <input

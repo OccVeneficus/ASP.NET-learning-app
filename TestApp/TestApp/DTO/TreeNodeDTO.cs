@@ -1,19 +1,22 @@
 ﻿namespace TestApp.DTO;
 
-public class TreeNodeDTO
+/// <summary>
+/// Data transfer object for TreeNode.
+/// </summary>
+public class TreeNodeDto
 {
-    public TreeNodeDTO(int id, string value, IEnumerable<TreeNodeDTO> children)
+    public TreeNodeDto(int id, string value, IEnumerable<TreeNodeDto> children)
     {
         Id = id;
         Value = value;
         Children = children;
     }
 
-    public TreeNodeDTO(int id, string value)
+    public TreeNodeDto(int id, string value)
     {
         Id = id;
         Value = value;
-        Children = new List<TreeNodeDTO>();
+        Children = new List<TreeNodeDto>();
     }
 
     /// <summary>
@@ -27,7 +30,7 @@ public class TreeNodeDTO
     public string Value { get; set; }
 
     /// <summary>
-    /// .
+    /// Collection of child elements.
     /// </summary>
-    public IEnumerable<TreeNodeDTO> Children { get; set; }
+    public IEnumerable<TreeNodeDto> Children { get; set; }
 }

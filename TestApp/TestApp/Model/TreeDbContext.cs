@@ -3,16 +3,33 @@ using Microsoft.Extensions.Configuration;
 
 namespace TestApp.Model;
 
+/// <summary>
+/// Database context for tree view data accsess.
+/// </summary>
 public class TreeDbContext : DbContext
 {
+    /// <summary>
+    /// App configuration.
+    /// </summary>
     protected readonly IConfiguration Configuration;
+
+    /// <summary>
+    /// Set of tree nodes.
+    /// </summary>
     public DbSet<TreeNode> TreeNodes { get; set; }
 
+    /// <summary>
+    /// Creates <see cref="TreeDbContext"/>.
+    /// </summary>
+    /// <param name="configuration">App configuration.</param>
     public TreeDbContext(IConfiguration configuration)
     {
         Configuration = configuration;
     }
 
+    /// <summary>
+    /// Populates database with initial values and saves it.
+    /// </summary>
     public void SeedDb()
     {
         var rootNode1 = new TreeNode(1, -1, "Root 1");
@@ -32,11 +49,13 @@ public class TreeDbContext : DbContext
         SaveChanges();
     }
 
+    /// <inheritdoc cref="DbContext.OnConfiguring"/>
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         options.UseSqlite(Configuration.GetConnectionString("WebApiDatabase"));
     }
 
+    /// <inheritdoc cref="DbContext.OnModelCreating"/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<TreeNode>()

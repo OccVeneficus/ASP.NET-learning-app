@@ -7,6 +7,9 @@ using TestApp.Model;
 
 namespace TestApp.Controllers
 {
+    /// <summary>
+    /// Tree view controller.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class TreeViewController : ControllerBase
@@ -20,13 +23,17 @@ namespace TestApp.Controllers
             _treeDbContext = treeDbContext;
         }
 
+        /// <summary>
+        /// Http GET request handler. Returns tree data.
+        /// </summary>
+        /// <returns>Tree data.</returns>
         [HttpGet]
-        public IEnumerable<TreeNodeDTO> Get()
+        public IEnumerable<TreeNodeDto> Get()
         {
-            var dtoTree = new List<TreeNodeDTO>();
+            var dtoTree = new List<TreeNodeDto>();
             foreach (var treeNode in _treeDbContext.TreeNodes.Where(node => node.ParentId == -1))
             {
-                var nodeDto = new TreeNodeDTO(treeNode.Id, treeNode.Value);
+                var nodeDto = new TreeNodeDto(treeNode.Id, treeNode.Value);
                 SetNodeDtoSubTrees(nodeDto);
                 dtoTree.Add(nodeDto);
             }
@@ -34,6 +41,11 @@ namespace TestApp.Controllers
             return dtoTree;
         }
 
+        /// <summary>
+        /// Http DELETE request handler. Deletes node with specififed ID.
+        /// </summary>
+        /// <param name="id">Node to delete id.</param>
+        /// <returns>Action result.</returns>
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
@@ -53,10 +65,17 @@ namespace TestApp.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Http POST request handler for adding child node.
+        /// </summary>
+        /// <param name="parentId">Id of node, for which the child node will be added.</param>
+        /// <returns>Result of action. <see cref="NotFound"/>
+        /// if there is no node with specified <see cref="parentId"/>,
+        /// or <see cref="Ok"/> if node was succsesfuly added.</returns>
         [HttpPost("{parentId:int}/addChild")]
         public IActionResult AddChild(int parentId)
         {
-            var newNodeDto = new TreeNodeDTO(-1, "New node");
+            var newNodeDto = new TreeNodeDto(-1, "New node");
             var parent = _treeDbContext.TreeNodes.FirstOrDefault(x => x.Id == parentId);
             if (parent == null)
             {
@@ -67,10 +86,18 @@ namespace TestApp.Controllers
             var a = _treeDbContext.TreeNodes.Add(newNode);
             _treeDbContext.SaveChanges();
 
-            var newNodeDtoWithId = new TreeNodeDTO(newNode.Id, newNode.Value);
+            var newNodeDtoWithId = new TreeNodeDto(newNode.Id, newNode.Value);
             return Ok(newNodeDtoWithId);
         }
 
+        /// <summary>
+        /// Http PUT request handler, updates specified node value.
+        /// </summary>
+        /// <param name="nodeId">Id of node, which value will be updated.</param>
+        /// <param name="newValue">New value for node.</param>
+        /// <returns>Result of action. <see cref="NotFound"/>
+        /// if there is no node with specified <see cref="nodeId"/>,
+        /// or <see cref="Ok"/> if node was succsesfuly update with <see cref="newValue"/>.</returns>
         [HttpPut("{nodeId:int}/{newValue}")]
         public IActionResult UpdateNode(int nodeId, string newValue)
         {
@@ -87,6 +114,10 @@ namespace TestApp.Controllers
             return Ok(nodeToUpdate);
         }
 
+        /// <summary>
+        /// Http POST request handler for tree data reset. Resets tree data context to inital state.
+        /// </summary>
+        /// <returns>Action result.</returns>
         [HttpPost("reset")]
         public IActionResult Reset()
         {
@@ -96,11 +127,16 @@ namespace TestApp.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Recursively searches for all child elemets of
+        /// specified node and adds them to children collection.
+        /// </summary>
+        /// <param name="root">Root node.</param>
         private void SetNodeDtoSubTrees(
-            TreeNodeDTO root)
+            TreeNodeDto root)
         {
             var childNodesDtos = _treeDbContext.TreeNodes.Where(node => node.ParentId == root.Id)
-                .Select(child => new TreeNodeDTO(child.Id, child.Value))
+                .Select(child => new TreeNodeDto(child.Id, child.Value))
                 .ToList();
             foreach (var child in childNodesDtos)
             {
@@ -109,6 +145,11 @@ namespace TestApp.Controllers
             root.Children = childNodesDtos;
         }
 
+        /// <summary>
+        /// Returnes all chidren elements of specified node.
+        /// </summary>
+        /// <param name="root">Root node.</param>
+        /// <returns>All children nodes of root node.</returns>
         private IEnumerable<TreeNode> GetChildren(TreeNode root)
         {
             var result = new List<TreeNode>();

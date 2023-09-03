@@ -1,0 +1,20 @@
+.tree-node {
+    padding: 10px;
+    display: flex;
+    align-items: left;
+    justify-content: start;
+    white-space: nowrap;
+}
+
+.tree-node .hover-button {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.tree-node:hover .hover-button {
+    opacity: 1;
+}
+
+.tree-node input {
+    background-color: lavender;
+}
