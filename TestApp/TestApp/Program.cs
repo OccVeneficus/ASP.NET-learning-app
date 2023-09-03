@@ -1,9 +1,18 @@
+using TestApp.Model;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddEntityFrameworkSqlite().AddDbContext<TreeDbContext>();
+using (var client = new TreeDbContext(builder.Configuration))
+{
+    var isCreated = client.Database.EnsureCreated();
+    if (isCreated)
+    {
+        client.SeedDb();
+    }
+}
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

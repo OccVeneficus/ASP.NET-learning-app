@@ -10,6 +10,7 @@ export class Home extends Component {
     this.handleReset = this.handleReset.bind(this);
     this.addChildNode = this.addChildNode.bind(this);
     this.deleteNode = this.deleteNode.bind(this); 
+    this.updateNode = this.updateNode.bind(this);
   }
 
   async populateTree() {
@@ -49,6 +50,25 @@ updateTreeData(tree, targetId, updateFunction) {
   });
 }
 
+async updateNode(nodeId, newValue) {
+  const response = await fetch(`treeview/${nodeId}/${newValue}`, {
+      method: "PUT"
+  });
+
+  if(!response.ok){
+    return;
+  }
+
+  const updatedTreeData = this.updateTreeData(this.state.treeData, nodeId, (node) => {
+      if (node.id === nodeId) {
+          return { ...node, value: newValue };
+      }
+      return node;
+  });
+
+  this.setState({ treeData: updatedTreeData });
+}
+
 async deleteNode(nodeId){
   await fetch(`treeview/${nodeId}`, {method: "DELETE"});
   const updatedTreeData = this.deleteNodeFromTree(this.state.treeData, nodeId);
@@ -79,11 +99,11 @@ deleteNodeFromTree(tree, targetId) {
       this.reset();
   }
     render() {
-        function renderTreeView(treeData, addNode, deleteNode) {
+        function renderTreeView(treeData, addNode, deleteNode, updateNode) {
             return (
                 <>
                   <div style={{ height: 500, overflowY: 'scroll' }}>
-                    <Tree treeData={treeData} deleteNode={deleteNode} addChildNode={addNode} />
+                    <Tree treeData={treeData} deleteNode={deleteNode} addChildNode={addNode} updateNodeHandler={updateNode} />
                   </div>
                 </>
             );
@@ -91,7 +111,7 @@ deleteNodeFromTree(tree, targetId) {
 
         let contents = this.state.loading
             ? <p><em>Loading...</em></p>
-            : renderTreeView(this.state.treeData, this.addChildNode, this.deleteNode);
+            : renderTreeView(this.state.treeData, this.addChildNode, this.deleteNode, this.updateNode);
 
     return (
       <div>

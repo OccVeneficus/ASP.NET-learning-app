@@ -3,16 +3,34 @@ import Tree from './Tree';
 
 function TreeNode(props) {
     const { children, value, id } = props.node;
-    
+
     const [showChildren, setShowChildren] = useState(false);
-
     const [hovered, setHovered] = useState(false);
-
     const [expandButtonText, setExpandButtonText] = useState("+");
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedValue, setEditedValue] = useState(value);
 
     useEffect(() => {
         setExpandButtonText(showChildren ? "-" : "+")
     },[showChildren])
+
+    const handleDoubleClick = () => {
+        setIsEditing(true);
+    };
+    
+    const handleApply = () => {
+        props.updateNodeHandler(id, editedValue);
+        setIsEditing(false);
+    };
+    
+    const handleCancel = () => {
+        setIsEditing(false);
+        setEditedValue(value);
+    };
+    
+    const handleInputChange = (event) => {
+        setEditedValue(event.target.value);
+    };
 
     const handleMouseEnter = () => {
         setHovered(true);
@@ -35,38 +53,49 @@ function TreeNode(props) {
         setShowChildren(true);
     }
 
-    const handleDeleteClick = (id) => {
-        props.deleteHandler(id)
-        if(children && children.length == 0){
-            setShowChildren(false);
-        }
-    }
-
     return (
         <>
             <div
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                style={{ 
-                    marginBottom: "10px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                     }}>
+                style={{
+                    padding: '10px', // Добавляем отступы
+                    display: 'flex',
+                    alignItems: 'left',
+                    justifyContent: 'start',
+                    whiteSpace: 'nowrap', // Текст не переносится
+                }}>
                 <button onClick={handleClick}>{expandButtonText}</button>
-                <span style={{ flex: "1" }}>{value}</span>
-                {hovered && (
-                    <div style={{ 
-                        display: "flex",
-                        alignContent: "left",
-                         }}>
-                        <button onClick={() => handleDeleteClick(id)} className="hover-button">delete</button>
+                {isEditing ? (
+                        <input
+                            type="text"
+                            value={editedValue}
+                            onChange={handleInputChange}
+                        />) 
+                        : (
+                        <span onDoubleClick={handleDoubleClick}>{value}</span>)}
+                {isEditing ? (
+                <div>
+                    <button onClick={handleApply}>Apply</button>
+                    <button onClick={handleCancel}>Cancel</button>
+                </div>
+                ) : (
+                hovered && (
+                    <div>
+                        <button onClick={() => props.deleteHandler(id)} className="hover-button">delete</button>
                         <button onClick={() => handleAddChildClick(id)} className="hover-button">add</button>
                     </div>
+                    )
                 )}
             </div>
             <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
-                {showChildren && <Tree treeData={children} deleteNode={props.deleteHandler} addChildNode={props.addChildHandler} />}
+                {showChildren && 
+                <Tree
+                treeData={children} 
+                deleteNode={props.deleteHandler} 
+                addChildNode={props.addChildHandler} 
+                updateNodeHandler={props.updateNodeHandler}
+                />}
             </ul>
         </>
     );

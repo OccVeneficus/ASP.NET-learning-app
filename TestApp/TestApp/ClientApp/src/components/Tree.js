@@ -26,7 +26,8 @@ function Tree(props) {
                     id={node.id} 
                     key={node.id} 
                     deleteHandler={clickDeleteHandler} 
-                    addChildHandler={clickAddChildHandler}/>
+                    addChildHandler={clickAddChildHandler}
+                    updateNodeHandler={props.updateNodeHandler}/>
                 ))}
             </ul>
         </>
