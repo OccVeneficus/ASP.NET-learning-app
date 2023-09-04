@@ -52,7 +52,7 @@ namespace TestApp.Controllers
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var itemToDelete = _treeDbContext.TreeNodes.FirstOrDefault(x => x.Id == id);
+            var itemToDelete = _treeDbContext.TreeNodes.FirstOrDefault(node => node.Id == id);
             if (itemToDelete == null)
             {
                 return NotFound();
@@ -79,7 +79,7 @@ namespace TestApp.Controllers
         public IActionResult AddChild(int parentId)
         {
             var newNodeDto = new TreeNodeDto(-1, "New node");
-            var parent = _treeDbContext.TreeNodes.FirstOrDefault(x => x.Id == parentId);
+            var parent = _treeDbContext.TreeNodes.FirstOrDefault(node => node.Id == parentId);
             if (parent == null)
             {
                 return NotFound("Parent node not found");
