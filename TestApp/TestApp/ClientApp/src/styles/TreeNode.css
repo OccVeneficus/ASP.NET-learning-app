@@ -6,8 +6,24 @@
     white-space: nowrap;
 }
 
+.expand-button {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 20px;
+}
+
+.tree-node .edit-button {
+    border-radius: 5px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
 .tree-node .hover-button {
-    opacity: 0;
+    opacity: 0; 
+    margin-left: 2px;
+    border-radius: 5px;
+    margin-right: 2px;
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -16,5 +32,19 @@
 }
 
 .tree-node input {
+    border-radius: 3px;
     background-color: lavender;
+}
+
+.tree-node span {
+    text-align: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 3px;
+}
+
+.tree-node span:hover {
+    background-color: lavenderblush;
 }

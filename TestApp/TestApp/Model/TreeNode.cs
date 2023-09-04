@@ -1,4 +1,7 @@
-﻿namespace TestApp.Model;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace TestApp.Model;
 
 /// <summary>
 /// Represents node in treeview.
@@ -32,6 +35,8 @@ public class TreeNode
     /// <summary>
     /// Unique value. Identifies a node.
     /// </summary>
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
     /// <summary>

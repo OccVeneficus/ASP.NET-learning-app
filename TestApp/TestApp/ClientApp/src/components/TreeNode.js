@@ -51,7 +51,7 @@ function TreeNode(props) {
         <>
             <div
                 className='tree-node'>
-                <button onClick={handleClick}>{expandButtonText}</button>
+                <button onClick={handleClick} className='expand-button'>{expandButtonText}</button>
                 {isEditing ? (
                         <input
                             type="text"
@@ -62,20 +62,20 @@ function TreeNode(props) {
                         <span onDoubleClick={handleDoubleClick}>{value}</span>)}
                 {isEditing ? (
                 <div>
-                    <button onClick={handleApply}>Apply</button>
-                    <button onClick={handleCancel}>Cancel</button>
+                    <button onClick={handleApply} className='edit-button'>Apply</button>
+                    <button onClick={handleCancel} className='edit-button'>Cancel</button>
                 </div>
                 ) : (
                 
                     <div>
-                        <button onClick={() => props.deleteHandler(id)} className="hover-button">delete</button>
-                        <button onClick={() => handleAddChildClick(id)} className="hover-button">add</button>
+                        <button onClick={() => handleAddChildClick(id)} className="hover-button">Add</button>
+                        <button onClick={() => props.deleteHandler(id)} className="hover-button">Delete</button>
                     </div>
                     
                 )}
             </div>
             <ul 
-                style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
+                style={{ paddingLeft: "10px"}}>
                 {showChildren && 
                 <Tree
                 treeData={children} 
