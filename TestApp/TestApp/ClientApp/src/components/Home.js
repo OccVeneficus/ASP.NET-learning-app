@@ -1,4 +1,4 @@
-﻿import React, { Component, useState} from 'react';
+﻿import React, { Component } from 'react';
 import Tree from './Tree';
 
 export class Home extends Component {
@@ -78,13 +78,13 @@ async deleteNode(nodeId){
 deleteNodeFromTree(tree, targetId) {
   return tree.filter((node) => {
     if (node.id === targetId) {
-      return false; // Удаляем узел с указанным id
+      return false;
     }
     if (node.children && node.children.length > 0) {
       node.children = this.deleteNodeFromTree(node.children, targetId);
-      return true; // Оставляем узел, так как у него есть дочерние элементы
+      return true;
     }
-    return true; // Оставляем узел без дочерних элементов
+    return true;
   });
 }
 
@@ -103,7 +103,11 @@ deleteNodeFromTree(tree, targetId) {
             return (
                 <>
                   <div style={{ height: 500, overflowY: 'scroll' }}>
-                    <Tree treeData={treeData} deleteNode={deleteNode} addChildNode={addNode} updateNodeHandler={updateNode} />
+                    <Tree 
+                      treeData={treeData}
+                      deleteNode={deleteNode} 
+                      addChildNode={addNode} 
+                      updateNodeHandler={updateNode}/>
                   </div>
                 </>
             );

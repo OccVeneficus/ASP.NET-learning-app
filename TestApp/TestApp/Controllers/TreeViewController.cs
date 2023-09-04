@@ -86,7 +86,6 @@ namespace TestApp.Controllers
             }
 
             var newNode = new TreeNode(newNodeDto.Value, parent.Id);
-            var a = _treeDbContext.TreeNodes.Add(newNode);
             _treeDbContext.SaveChanges();
 
             var newNodeDtoWithId = new TreeNodeDto(newNode.Id, newNode.Value);

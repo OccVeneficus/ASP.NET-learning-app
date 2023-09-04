@@ -9,7 +9,7 @@ function TreeNode(props) {
     const [expandButtonText, setExpandButtonText] = useState("+");
     const [isEditing, setIsEditing] = useState(false);
     const [editedValue, setEditedValue] = useState(value);
-    
+
     useEffect(() => {
         setExpandButtonText(showChildren ? "-" : "+")
     },[showChildren])
@@ -21,6 +21,7 @@ function TreeNode(props) {
     const handleApply = () => {
         props.updateNodeHandler(id, editedValue);
         setIsEditing(false);
+        setEditedValue(value);
     };
     
     const handleCancel = () => {
