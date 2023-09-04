@@ -6,11 +6,10 @@ function TreeNode(props) {
     const { children, value, id } = props.node;
 
     const [showChildren, setShowChildren] = useState(false);
-    const [hovered, setHovered] = useState(false);
     const [expandButtonText, setExpandButtonText] = useState("+");
     const [isEditing, setIsEditing] = useState(false);
     const [editedValue, setEditedValue] = useState(value);
-
+    
     useEffect(() => {
         setExpandButtonText(showChildren ? "-" : "+")
     },[showChildren])
@@ -33,16 +32,9 @@ function TreeNode(props) {
         setEditedValue(event.target.value);
     };
 
-    const handleMouseEnter = () => {
-        setHovered(true);
-    };
-
-    const handleMouseLeave = () => {
-        setHovered(false);
-    };
 
     const handleClick = () => {
-        if (typeof children === 'undefined' || children.length === 0) {
+        if (!children || children.length === 0) {
             return;
         }
 
@@ -57,9 +49,7 @@ function TreeNode(props) {
     return (
         <>
             <div
-                className='tree-node'
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}>
+                className='tree-node'>
                 <button onClick={handleClick}>{expandButtonText}</button>
                 {isEditing ? (
                         <input
@@ -75,15 +65,16 @@ function TreeNode(props) {
                     <button onClick={handleCancel}>Cancel</button>
                 </div>
                 ) : (
-                hovered && (
+                
                     <div>
                         <button onClick={() => props.deleteHandler(id)} className="hover-button">delete</button>
                         <button onClick={() => handleAddChildClick(id)} className="hover-button">add</button>
                     </div>
-                    )
+                    
                 )}
             </div>
-            <ul style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
+            <ul 
+                style={{ paddingLeft: "10px", borderLeft: "1px solid black" }}>
                 {showChildren && 
                 <Tree
                 treeData={children} 

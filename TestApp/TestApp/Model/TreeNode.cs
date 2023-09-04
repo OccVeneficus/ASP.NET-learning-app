@@ -5,6 +5,12 @@
 /// </summary>
 public class TreeNode
 {
+    /// <summary>
+    /// Creates instance of <see cref="TreeNode"/>.
+    /// </summary>
+    /// <param name="id">Unique id.</param>
+    /// <param name="parentId">Id of parent node.</param>
+    /// <param name="value">Value displayed in node.</param>
     public TreeNode(int id, int parentId, string value)
     {
         Id = id;
@@ -12,6 +18,11 @@ public class TreeNode
         Value = value;
     }
 
+    /// <summary>
+    /// Creates instance of <see cref="TreeNode"/>.
+    /// </summary>
+    /// <param name="parentId">Id of parent node.</param>
+    /// <param name="value">Value displayed in node.</param>
     public TreeNode(string value, int parentId)
     {
         Value = value;

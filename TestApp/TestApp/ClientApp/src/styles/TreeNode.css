@@ -2,7 +2,7 @@
     padding: 10px;
     display: flex;
     align-items: left;
-    justify-content: start;
+    justify-content: flex-start;
     white-space: nowrap;
 }
 

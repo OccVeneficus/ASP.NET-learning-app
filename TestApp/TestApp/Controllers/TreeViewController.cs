@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using TestApp.DTO;
 using TestApp.Model;
@@ -17,6 +15,11 @@ namespace TestApp.Controllers
         private readonly ILogger<TreeViewController> _logger;
         private readonly TreeDbContext _treeDbContext;
 
+        /// <summary>
+        /// Creates instance of <see cref="TreeViewController"/>.
+        /// </summary>
+        /// <param name="logger">Logger.</param>
+        /// <param name="treeDbContext">Db context with treeview data.</param>
         public TreeViewController(ILogger<TreeViewController> logger, TreeDbContext treeDbContext)
         {
             _logger = logger;
@@ -42,7 +45,7 @@ namespace TestApp.Controllers
         }
 
         /// <summary>
-        /// Http DELETE request handler. Deletes node with specififed ID.
+        /// Http DELETE request handler. Deletes node with specified ID.
         /// </summary>
         /// <param name="id">Node to delete id.</param>
         /// <returns>Action result.</returns>
@@ -71,7 +74,7 @@ namespace TestApp.Controllers
         /// <param name="parentId">Id of node, for which the child node will be added.</param>
         /// <returns>Result of action. <see cref="NotFound"/>
         /// if there is no node with specified <see cref="parentId"/>,
-        /// or <see cref="Ok"/> if node was succsesfuly added.</returns>
+        /// or <see cref="Ok"/> if node was successfully added.</returns>
         [HttpPost("{parentId:int}/addChild")]
         public IActionResult AddChild(int parentId)
         {
@@ -97,7 +100,7 @@ namespace TestApp.Controllers
         /// <param name="newValue">New value for node.</param>
         /// <returns>Result of action. <see cref="NotFound"/>
         /// if there is no node with specified <see cref="nodeId"/>,
-        /// or <see cref="Ok"/> if node was succsesfuly update with <see cref="newValue"/>.</returns>
+        /// or <see cref="Ok"/> if node was successfully update with <see cref="newValue"/>.</returns>
         [HttpPut("{nodeId:int}/{newValue}")]
         public IActionResult UpdateNode(int nodeId, string newValue)
         {
@@ -115,7 +118,7 @@ namespace TestApp.Controllers
         }
 
         /// <summary>
-        /// Http POST request handler for tree data reset. Resets tree data context to inital state.
+        /// Http POST request handler for tree data reset. Resets tree data context to initial state.
         /// </summary>
         /// <returns>Action result.</returns>
         [HttpPost("reset")]
@@ -128,7 +131,7 @@ namespace TestApp.Controllers
         }
 
         /// <summary>
-        /// Recursively searches for all child elemets of
+        /// Recursively searches for all child elements of
         /// specified node and adds them to children collection.
         /// </summary>
         /// <param name="root">Root node.</param>
@@ -146,7 +149,7 @@ namespace TestApp.Controllers
         }
 
         /// <summary>
-        /// Returnes all chidren elements of specified node.
+        /// Returns all children elements of specified node.
         /// </summary>
         /// <param name="root">Root node.</param>
         /// <returns>All children nodes of root node.</returns>

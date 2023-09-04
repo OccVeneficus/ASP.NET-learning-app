@@ -5,13 +5,11 @@
 /// </summary>
 public class TreeNodeDto
 {
-    public TreeNodeDto(int id, string value, IEnumerable<TreeNodeDto> children)
-    {
-        Id = id;
-        Value = value;
-        Children = children;
-    }
-
+    /// <summary>
+    /// Creates instance of <see cref="TreeNodeDto"/>.
+    /// </summary>
+    /// <param name="id">TreeNode Id.</param>
+    /// <param name="value">TreeNode value.</param>
     public TreeNodeDto(int id, string value)
     {
         Id = id;
